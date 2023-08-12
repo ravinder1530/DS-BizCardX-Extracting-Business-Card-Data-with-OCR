@@ -12,12 +12,12 @@ import re
 
 
 # SETTING PAGE CONFIGURATIONS
-icon = Image.open("icon.png")
+icon = Image.open("D:\\Ravi\\Guvi\\bizcard\\icon.png")
 st.set_page_config(page_title= "BizCardX: Extracting Business Card Data with OCR | By Jafar Hussain",
                    page_icon= icon,
                    layout= "wide",
                    initial_sidebar_state= "expanded",
-                   menu_items={'About': """# This OCR app is created by *Jafar Hussain*!"""})
+                   menu_items={'About': """# OCR app !"""})
 st.markdown("<h1 style='text-align: center; color: white;'>BizCardX: Extracting Business Card Data with OCR</h1>", unsafe_allow_html=True)
 
 # SETTING-UP BACKGROUND IMAGE
@@ -45,7 +45,8 @@ reader = easyocr.Reader(['en'])
 mydb = sql.connect(host="localhost",
                    user="root",
                    password="Ayyappan@28",
-                   database= "bizcardx_db"
+                   database= "bizcardx_db",
+                   auth_plugin='mysql_native_password'
                   )
 mycursor = mydb.cursor(buffered=True)
 
@@ -74,14 +75,14 @@ if selected == "Home":
     with col2:
         st.image("home.png")
 
-
+path = "D:/Ravi/Guvi/bizcard"
 # UPLOAD AND EXTRACT MENU
 if selected == "Upload & Extract":
     st.markdown("### Upload a Business Card")
     uploaded_card = st.file_uploader("upload here",label_visibility="collapsed",type=["png","jpeg","jpg"])
 
     if uploaded_card is not None:
-
+        os.makedirs("uploaded_cards", exist_ok=True)
         def save_card(uploaded_card):
             with open(os.path.join("uploaded_cards",uploaded_card.name), "wb") as f:
                 f.write(uploaded_card.getbuffer())
